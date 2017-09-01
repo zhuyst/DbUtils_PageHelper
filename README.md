@@ -4,13 +4,12 @@
 
 将需要使用的Dao继承 `BaseDao` ，`BaseDao` 中有两个方法<br/>
 ```
-// 无参数方法<br/>
+// 无参数方法
 <T> Page<T> queryWithPage(String sql, RowBounds rowBounds, Class<T> type)<br/>
 
-// 有参数方法<br/>
+// 有参数方法
 <T> Page<T> queryWithPage(String sql, RowBounds rowBounds, Class<T> type,Object... params)
 ```
-<br/>
 
 使用 `PageUtil.getRowBounds()` 方法获取RowBounds<br/>
 ```Java
