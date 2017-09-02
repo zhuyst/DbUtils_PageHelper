@@ -44,8 +44,7 @@ public abstract class BaseDao {
         //如果PageEnum为PAGE，则进行分页查询
         else if(pageEnum == PageEnum.PAGE){
             //进行count查询获取total
-            String countSQL = PageUtil.count(sql);
-            Long total = queryRunner.query(countSQL, new ScalarHandler<Long>(),params);
+            Long total = this.count(sql,params);
             page.setTotal(total);
 
             //通过total和pageSize获取总页数pages
@@ -68,14 +67,20 @@ public abstract class BaseDao {
             page.setPageNum(rowBounds.getPageNum());
             page.setPageSize(rowBounds.getPageSize());
         }
-
-        //如果PageEnum为COUNT，则进行COUNT查询
         else if(pageEnum == PageEnum.COUNT){
-            sql = PageUtil.count(sql);
-            Long total = queryRunner.query(sql, new ScalarHandler<Long>(),params);
+            Long total = this.count(sql,params);
             page.setTotal(total);
         }
 
         return page;
+    }
+
+    protected Long count(String sql) throws SQLException {
+        return this.count(sql,(Object[])null);
+    }
+
+    protected Long count(String sql,Object... params) throws SQLException {
+        sql = PageUtil.count(sql);
+        return queryRunner.query(sql,new ScalarHandler<Long>(),params);
     }
 }

@@ -7,7 +7,9 @@ import indi.zhuyst.dbutils.pagehelper.pojo.RowBounds;
 public class PageUtil {
     //对SQL语句进行COUNT查询处理
     public static String count(@NotNull String sql){
-        String replaceStr = sql.split(" ")[1];
+        int fromIndex = sql.toUpperCase().indexOf("FROM");
+
+        String replaceStr = sql.substring(7,fromIndex - 1);
         return sql.replace(replaceStr,"COUNT(0)");
     }
 
@@ -28,7 +30,7 @@ public class PageUtil {
     public static RowBounds getRowBounds(Integer pageNum, Integer pageSize){
         RowBounds rowBounds = new RowBounds();
 
-        if(pageNum == null || pageSize == null){
+        if(pageNum == null || pageSize == null || pageSize <= 0){
             rowBounds.setPageEnum(PageEnum.ALL);
         }
         else {
